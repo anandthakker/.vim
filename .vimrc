@@ -29,15 +29,16 @@ set tabstop=2
 set sw=2
 set expandtab
 
+set guifont=Menlo\ Regular:h13
+set guioptions+=c
+
 syntax on
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-
 colorscheme solarized
 call togglebg#map("<F5>")
 
 
 " PLUGIN SETTINGS
-
 
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -99,9 +100,6 @@ function! g:setJavascriptChecker()
 endfun
 
 autocmd FileType javascript call g:setJavascriptChecker()
-
-" up the font size
-set guifont=Menlo\ Regular:h13
 
 " vimrc segment for syntastic- and fugitive-enabled statusline
 " from https://github.com/spf13/spf13-vim/blob/master/.vimrc
