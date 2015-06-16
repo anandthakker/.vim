@@ -79,8 +79,13 @@ let g:syntastic_check_on_wq = 0
 " finally it will return an empty list indicating jshint should use
 " the defaults.
 function! g:FindRc(name, path)
-  let l:jshintrc_file = fnamemodify(a:path, ':p') . a:name
-  if filereadable(l:jshintrc_file)
+  " Stop searching if we hit the home directory
+  if a:path == $HOME
+    return 0
+  endif
+
+  let l:rc_file = fnamemodify(a:path, ':p') . a:name
+  if filereadable(l:rc_file)
     return 1
   elseif len(a:path) > 1
     return g:FindRc(a:name, fnamemodify(a:path, ":h"))
@@ -95,7 +100,7 @@ function! g:setJavascriptChecker()
   elseif g:FindRc('.jshintrc', expand('%:p:h'))
     let b:syntastic_checkers = ["jshint"]
   else
-    let b:syntastic_checkers = ["standard"]
+    let b:syntastic_checkers = ["eslint"]
   endif
 endfun
 
