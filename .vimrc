@@ -74,10 +74,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-" FindRc() will try to find a .jshintrc up the current path string
-" If it cannot find one it will try looking in the home directory
-" finally it will return an empty list indicating jshint should use
-" the defaults.
+" FindRc() will try to find a .jshintrc/.eslintrc up the current path string
+" If it cannot find one it will try looking in the home directory finally it
+" will return an empty list indicating jshint should use the defaults.
 function! g:FindRc(name, path)
   " Stop searching if we hit the home directory
   if a:path == $HOME
