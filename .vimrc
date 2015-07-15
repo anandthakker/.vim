@@ -37,6 +37,14 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 colorscheme solarized
 call togglebg#map("<F5>")
 
+augroup python_autocmds
+    autocmd!
+    " highlight characters past column 120
+    autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
+    autocmd FileType python match Excess /\%120v.*/
+    autocmd FileType python set nowrap
+    augroup END
+
 
 " PLUGIN SETTINGS
 
