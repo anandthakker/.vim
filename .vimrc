@@ -29,9 +29,10 @@ set tabstop=2
 set sw=2
 set expandtab
 
-set guifont=Menlo\ Regular:h13
+set guifont=Inconsolata-dz\ for\ Powerline:h13
 set guioptions+=c
 
+set t_Co=256
 syntax on
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 colorscheme solarized
@@ -47,6 +48,10 @@ augroup python_autocmds
 
 
 " PLUGIN SETTINGS
+
+" airline
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'solarized'
 
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -112,24 +117,6 @@ function! g:setJavascriptChecker()
 endfun
 
 autocmd FileType javascript call g:setJavascriptChecker()
-
-" vimrc segment for syntastic- and fugitive-enabled statusline
-" from https://github.com/spf13/spf13-vim/blob/master/.vimrc
-if has('statusline')
-  set laststatus=2
-  " Broken down into easily includeable segments
-  set statusline=%<%f\    " Filename
-  set statusline+=%w%h " Options
-  set statusline+=%{fugitive#statusline()} "  Git Hotness
-  set statusline+=\ %y            " filetype
-  set statusline+=\ [%{getcwd()}]          " current dir
-  set statusline+=%#warningmsg#
-  set statusline+=%{SyntasticStatuslineFlag()}
-  set statusline+=%*
-  let g:syntastic_enable_signs=1
-  set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-endif
-
 
 
 " KEY BINDINGS
