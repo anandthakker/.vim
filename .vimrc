@@ -30,8 +30,14 @@ set tabstop=2
 set sw=2
 set expandtab
 
-set guifont=Inconsolata-dz\ for\ Powerline:h13
-set guioptions+=c
+if has("gui_running")
+  " http://vim.wikia.com/wiki/Maximize_or_set_initial_window_size
+  " GUI is running or is about to start.
+  " Maximize gvim window (for an alternative on Windows, see simalt below).
+  set lines=999 columns=999
+  set guifont=M+_1m_light:h14
+  set guioptions+=c
+endif
 
 syntax on
 
@@ -74,7 +80,6 @@ augroup END
 " PLUGIN SETTINGS
 
 " airline
-let g:airline_powerline_fonts = 1
 let g:airline#extensions#syntastic#enabled = 1
 
 " supertab
