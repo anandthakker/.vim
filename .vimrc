@@ -35,6 +35,22 @@ set guioptions+=c
 
 syntax on
 
+set background=dark
+let base16colorspace=256
+colorscheme base16-atelierdune
+" http://vim.wikia.com/wiki/Better_colors_for_syntax_highlighting
+function! ReverseBackground()
+  let Mysyn=&syntax
+  if &bg=="light"
+  se bg=dark
+  else
+  se bg=light
+  endif
+  syn on
+  exe "set syntax=" . Mysyn
+endfunction
+command! ToggleBackground call ReverseBackground()
+
 if exists('+colorcolumn')
   augroup colorcolumn
     autocmd!
@@ -153,3 +169,5 @@ nnoremap <Leader>a :Ack
 nnoremap <Leader>fu :CtrlPFunky<Cr>
 " \fU narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+" toggle light/dark background
+nnoremap <F5> :ToggleBackground<Cr>
