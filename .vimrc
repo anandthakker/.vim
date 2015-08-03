@@ -16,6 +16,7 @@ set number
 set showcmd
 set selectmode=mouse
 set splitright
+set splitbelow
 set wildmode=longest,list,full
 set wildmenu
 set wildignore+=node_modules
@@ -34,17 +35,27 @@ set guioptions+=c
 
 set t_Co=256
 syntax on
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 colorscheme solarized
 call togglebg#map("<F5>")
 
-augroup python_autocmds
+if exists('+colorcolumn')
+  augroup colorcolumn
     autocmd!
-    " highlight characters past column 120
-    autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType python match Excess /\%120v.*/
+    autocmd FileType javascript,python,markdown setlocal colorcolumn=80
+  augroup END
+endif
+
+augroup python_filetype
+    autocmd!
     autocmd FileType python set nowrap
-    augroup END
+    autocmd FileType python set tabstop=4
+    autocmd FileType python set sw=4
+augroup END
+
+augroup markdown_filetype
+  autocmd!
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+augroup END
 
 
 " PLUGIN SETTINGS
@@ -52,6 +63,7 @@ augroup python_autocmds
 " airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'solarized'
+let g:airline#extensions#syntastic#enabled = 1
 
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -71,6 +83,9 @@ let g:gist_post_private = 1
 " ctrlp
 let g:ctrlp_extensions = ['line', 'funky']
 
+" jedi
+let g:jedi#show_call_signatures = "2"
+
 " The Silver Searcher
 if executable('ag')
   " Use ag with ack.vim
@@ -82,6 +97,7 @@ if executable('ag')
 endif
 
 " syntastic
+let g:syntastic_python_checkers = ['pep8']
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
@@ -116,7 +132,10 @@ function! g:setJavascriptChecker()
   endif
 endfun
 
-autocmd FileType javascript call g:setJavascriptChecker()
+augroup javascript_syntax
+  autocmd!
+  autocmd FileType javascript call g:setJavascriptChecker()
+augroup END
 
 
 " KEY BINDINGS
