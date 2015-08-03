@@ -33,10 +33,7 @@ set expandtab
 set guifont=Inconsolata-dz\ for\ Powerline:h13
 set guioptions+=c
 
-set t_Co=256
 syntax on
-colorscheme solarized
-call togglebg#map("<F5>")
 
 if exists('+colorcolumn')
   augroup colorcolumn
@@ -62,7 +59,6 @@ augroup END
 
 " airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'solarized'
 let g:airline#extensions#syntastic#enabled = 1
 
 " supertab
