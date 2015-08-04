@@ -21,6 +21,7 @@ set wildmode=longest,list,full
 set wildmenu
 set wildignore+=node_modules
 set laststatus=2
+set autochdir
 
 filetype plugin on
 filetype indent on
@@ -164,6 +165,16 @@ augroup javascript_syntax
 augroup END
 
 
+" COMMANDS
+function! g:Curl(url)
+  normal ggdG
+  silent !clear
+  let l:foo = ":read !curl -s " . a:url . " | jq ."
+  set filetype=json
+  execute foo
+endfunction
+command! -nargs=1 Curl call g:Curl(<f-args>)
+
 " KEY BINDINGS
 
 
@@ -183,5 +194,9 @@ nnoremap <Leader>a :Ack
 nnoremap <Leader>fu :CtrlPFunky<Cr>
 " \fU narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+" \b for buffers
+nnoremap <Leader>b :CtrlPBuffer<Cr>
 " toggle light/dark background
 nnoremap <F5> :ToggleBackground<Cr>
+" http://vim.wikia.com/wiki/Selecting_your_pasted_text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
