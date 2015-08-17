@@ -80,6 +80,7 @@ augroup END
 
 " PLUGIN SETTINGS
 
+
 " airline
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline_left_sep = ''
@@ -95,9 +96,6 @@ let g:airline_section_y = '%{getcwd()}'
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
 
-" ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-
 " delimitMate
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 2
@@ -112,6 +110,11 @@ let g:ctrlp_extensions = ['line', 'funky']
 
 " jedi
 let g:jedi#show_call_signatures = "2"
+
+" tern
+" make sure we use the same node version that was used to install the tern server
+let g:tern#command = [$NVM_DIR . '/versions/io.js/v2.5.0/bin/node', $HOME . '/.vim/bundle/tern_for_vim/node_modules/tern/bin/tern', '--no-port-file']
+let g:tern#is_show_argument_hints_enabled = 0
 
 " The Silver Searcher
 if executable('ag')
@@ -166,6 +169,8 @@ augroup END
 
 
 " COMMANDS
+
+
 function! g:Curl(url)
   normal ggdG
   silent !clear
@@ -174,6 +179,7 @@ function! g:Curl(url)
   execute foo
 endfunction
 command! -nargs=1 Curl call g:Curl(<f-args>)
+
 
 " KEY BINDINGS
 
@@ -187,9 +193,9 @@ nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 " whole file
 nnoremap <Leader>r :%s/\<<c-r>"\>/<c-r>./g
 " and \S for a full code search
-nnoremap <Leader>S :Ack <C-r><C-w>
+nnoremap <Leader>S :Ack! <C-r><C-w>
 " \a for Ack
-nnoremap <Leader>a :Ack
+nnoremap <Leader>a :Ack!
 " \fu for function list
 nnoremap <Leader>fu :CtrlPFunky<Cr>
 " \fU narrow the list down with a word under cursor
@@ -200,3 +206,9 @@ nnoremap <Leader>b :CtrlPBuffer<Cr>
 nnoremap <F5> :ToggleBackground<Cr>
 " http://vim.wikia.com/wiki/Selecting_your_pasted_text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+" code semantics
+augroup tern_mappings
+  autocmd!
+  autocmd FileType javascript nnoremap <Leader>d :TernDoc<Cr>
+  autocmd FileType javascript nnoremap <Leader>t :TernType<Cr>
+augroup END
