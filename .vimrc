@@ -127,7 +127,8 @@ if executable('ag')
 endif
 
 " syntastic
-let g:syntastic_python_checkers = ['pep8']
+let g:syntastic_python_checkers = ['pep8', 'pylint']
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
