@@ -109,7 +109,8 @@ let g:gist_post_private = 1
 let g:ctrlp_extensions = ['line', 'funky']
 
 " jedi
-let g:jedi#show_call_signatures = "2"
+let g:jedi#show_call_signatures = 0
+let g:jedi#popup_on_dot = 0
 
 " tern
 " make sure we use the same node version that was used to install the tern server
