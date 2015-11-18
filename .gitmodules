@@ -91,3 +91,6 @@
 [submodule "bundle/json5.vim"]
 	path = bundle/json5.vim
 	url = https://github.com/GutenYe/json5.vim
+[submodule "bundle/argtextobj.vim"]
+	path = bundle/argtextobj.vim
+	url = https://github.com/vim-scripts/argtextobj.vim
