@@ -1,6 +1,3 @@
-[submodule "bundle/JavaScript-Indent"]
-	path = bundle/JavaScript-Indent
-	url = https://github.com/vim-scripts/JavaScript-Indent.git
 [submodule "bundle/ack.vim"]
 	path = bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
@@ -88,6 +85,3 @@
 [submodule "bundle/argtextobj.vim"]
 	path = bundle/argtextobj.vim
 	url = https://github.com/vim-scripts/argtextobj.vim
-[submodule "bundle/vim-javascript-syntax"]
-	path = bundle/vim-javascript-syntax
-	url = https://github.com/jelera/vim-javascript-syntax.git
