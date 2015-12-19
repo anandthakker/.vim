@@ -157,8 +157,19 @@ command! -nargs=1 Curl call g:Curl(<f-args>)
 " KEY BINDINGS
 
 
+" window navigation
+:tnoremap <A-h> <C-\><C-n><C-w>h
+:tnoremap <A-j> <C-\><C-n><C-w>j
+:tnoremap <A-k> <C-\><C-n><C-w>k
+:tnoremap <A-l> <C-\><C-n><C-w>l
+:nnoremap <A-h> <C-w>h
+:nnoremap <A-j> <C-w>j
+:nnoremap <A-k> <C-w>k
+:nnoremap <A-l> <C-w>l
 " use jk to leave insert mode
 inoremap jk <esc>
+" \<space> to clear search highlight
+nnoremap <Leader><space> :nohlsearch<cr>
 " \s to initiate search and replace for word under cursor
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 " \r to replace the last yanked(deleted/changed) word with last inserted text
@@ -168,7 +179,7 @@ nnoremap <Leader>r :%s/\<<c-r>"\>/<c-r>./g
 " and \S for a full code search
 nnoremap <Leader>S :Ack! <C-r><C-w>
 " \a for Ack
-nnoremap <Leader>a :Ack!
+nnoremap <Leader>a :Ack! 
 " \fu for function list
 nnoremap <Leader>fu :CtrlPFunky<Cr>
 " \fU narrow the list down with a word under cursor
