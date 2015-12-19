@@ -108,6 +108,9 @@ let g:gist_post_private = 1
 " ctrlp
 let g:ctrlp_extensions = ['line', 'funky']
 
+" jsx
+let g:jsx_ext_required = 0
+
 " jedi
 let g:jedi#show_call_signatures = 0
 let g:jedi#popup_on_dot = 0
