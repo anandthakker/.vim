@@ -43,7 +43,7 @@ endif
 syntax on
 
 set background=dark
-let base16colorspace=256
+" let base16colorspace=256
 colorscheme base16-atelierdune
 " http://vim.wikia.com/wiki/Better_colors_for_syntax_highlighting
 function! ReverseBackground()
@@ -132,45 +132,13 @@ endif
 
 " syntastic
 let g:syntastic_python_checkers = ['pep8', 'pylint']
+let b:syntastic_checkers = ['eslint']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-" FindRc() will try to find a .jshintrc/.eslintrc up the current path string
-" If it cannot find one it will try looking in the home directory finally it
-" will return an empty list indicating jshint should use the defaults.
-function! g:FindRc(name, path)
-  " Stop searching if we hit the home directory
-  if a:path == $HOME
-    return 0
-  endif
-
-  let l:rc_file = fnamemodify(a:path, ':p') . a:name
-  if filereadable(l:rc_file)
-    return 1
-  elseif len(a:path) > 1
-    return g:FindRc(a:name, fnamemodify(a:path, ":h"))
-  else
-    return 0
-  endif
-endfun
-
-function! g:setJavascriptChecker()
-  if g:FindRc('.eslintrc', expand('%:p:h'))
-    let b:syntastic_checkers = ['eslint']
-  elseif g:FindRc('.jshintrc', expand('%:p:h'))
-    let b:syntastic_checkers = ["jshint"]
-  else
-    let b:syntastic_checkers = ["eslint"]
-  endif
-endfun
-
-augroup javascript_syntax
-  autocmd!
-  autocmd FileType javascript call g:setJavascriptChecker()
-augroup END
 
 
 " COMMANDS
