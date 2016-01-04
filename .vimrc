@@ -40,11 +40,20 @@ if has("gui_running")
   set guioptions+=c
 endif
 
+if has('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+  augroup check_changes
+    autocmd!
+    autocmd BufEnter,FocusGained * checktime
+  augroup END
+endif
+
 syntax on
 
 set background=dark
-" let base16colorspace=256
-colorscheme base16-atelierdune
+colorscheme base16-default
 " http://vim.wikia.com/wiki/Better_colors_for_syntax_highlighting
 function! ReverseBackground()
   let Mysyn=&syntax
@@ -75,6 +84,11 @@ augroup END
 augroup markdown_filetype
   autocmd!
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+augroup END
+
+augroup jsx_filetype
+    autocmd!
+    autocmd FileType javascript.jsx let b:syntastic_checkers = ['eslint']
 augroup END
 
 
@@ -132,7 +146,7 @@ endif
 
 " syntastic
 let g:syntastic_python_checkers = ['pep8', 'pylint']
-let b:syntastic_checkers = ['eslint']
+let b:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 1
