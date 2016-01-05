@@ -53,7 +53,7 @@ endif
 syntax on
 
 set background=dark
-colorscheme base16-default
+colorscheme base16-atelierforest
 " http://vim.wikia.com/wiki/Better_colors_for_syntax_highlighting
 function! ReverseBackground()
   let Mysyn=&syntax
