@@ -86,9 +86,14 @@ augroup markdown_filetype
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 augroup END
 
-augroup jsx_filetype
+" http://blog.pixelastic.com/2015/10/05/use-local-eslint-in-syntastic/
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+augroup js_syntax_filetypes
     autocmd!
     autocmd FileType javascript.jsx let b:syntastic_checkers = ['eslint']
+    autocmd FileType javascript,javascript.jsx let g:syntastic_javascript_eslint_exec = StrTrim(system('npm-which eslint'))
 augroup END
 
 
