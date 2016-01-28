@@ -92,7 +92,7 @@ function! StrTrim(txt)
 endfunction
 augroup js_syntax_filetypes
     autocmd!
-    autocmd FileType javascript.jsx let b:syntastic_checkers = ['eslint']
+    autocmd FileType javascript,javascript.jsx let b:syntastic_checkers = ['eslint']
     autocmd FileType javascript,javascript.jsx let g:syntastic_javascript_eslint_exec = StrTrim(system('npm-which eslint'))
 augroup END
 
@@ -138,6 +138,9 @@ let g:jedi#popup_on_dot = 0
 " make sure we use the same node version that was used to install the tern server
 let g:tern#command = [$NVM_DIR . '/versions/io.js/v2.5.0/bin/node', $HOME . '/.vim/bundle/tern_for_vim/node_modules/tern/bin/tern', '--no-port-file']
 let g:tern#is_show_argument_hints_enabled = 0
+
+" vim-flow
+let g:flow#enable = 0
 
 " The Silver Searcher
 if executable('ag')
