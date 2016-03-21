@@ -97,20 +97,12 @@ augroup js_syntax_filetypes
 augroup END
 
 
+" statusline
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+
 " PLUGIN SETTINGS
 
-
-" airline
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.linenr = '␊'
-let g:airline_section_x = ''
-let g:airline_section_y = '%{getcwd()}'
 
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -158,7 +150,7 @@ let b:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
