@@ -79,9 +79,6 @@
 [submodule "bundle/json5.vim"]
 	path = bundle/json5.vim
 	url = https://github.com/GutenYe/json5.vim
-[submodule "bundle/argtextobj.vim"]
-	path = bundle/argtextobj.vim
-	url = https://github.com/vim-scripts/argtextobj.vim
 [submodule "bundle/vim-javascript"]
 	path = bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
@@ -91,3 +88,6 @@
 [submodule "bundle/vim-flow"]
 	path = bundle/vim-flow
 	url = https://github.com/flowtype/vim-flow
+[submodule "bundle/targets.vim"]
+	path = bundle/targets.vim
+	url = https://github.com/wellle/targets.vim

@@ -98,7 +98,12 @@ augroup END
 
 
 " statusline
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%<
+set statusline+=%(%-f\ %h%r%m\ %{fugitive#statusline()}%)
+set statusline+=\ %#Error#%{SyntasticStatuslineFlag()}%* " lint errors
+set statusline+=%= " boundary btw left and right sides
+set statusline+=%-14.(%l,%c%V%) " line,col
+set statusline+=%P " percentage through file
 
 
 " PLUGIN SETTINGS
@@ -150,7 +155,7 @@ let b:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
