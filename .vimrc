@@ -87,20 +87,20 @@ augroup markdown_filetype
 augroup END
 
 " http://blog.pixelastic.com/2015/10/05/use-local-eslint-in-syntastic/
-function! StrTrim(txt)
-  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-endfunction
-augroup js_syntax_filetypes
-    autocmd!
-    autocmd FileType javascript,javascript.jsx let b:syntastic_checkers = ['eslint']
-    autocmd FileType javascript,javascript.jsx let g:syntastic_javascript_eslint_exec = StrTrim(system('npm-which eslint'))
-augroup END
+" function! StrTrim(txt)
+"   return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+" endfunction
+" augroup js_syntax_filetypes
+"     autocmd!
+"     autocmd FileType javascript,javascript.jsx let b:syntastic_checkers = ['eslint']
+"     autocmd FileType javascript,javascript.jsx let g:syntastic_javascript_eslint_exec = StrTrim(system('npm-which eslint'))
+" augroup END
 
 
 " statusline
 set statusline=%<
 set statusline+=%(%-f\ %h%r%m\ %{fugitive#statusline()}%)
-set statusline+=\ %#Error#%{SyntasticStatuslineFlag()}%* " lint errors
+set statusline+=\ %#Error#%{neomake#statusline#LoclistStatus()}%* " lint errors
 set statusline+=%= " boundary btw left and right sides
 set statusline+=%-14.(%l,%c%V%) " line,col
 set statusline+=%P " percentage through file
@@ -150,15 +150,27 @@ if executable('ag')
 endif
 
 " syntastic
-let g:syntastic_python_checkers = ['pep8', 'pylint']
-let b:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" let g:syntastic_python_checkers = ['pep8', 'pylint']
+" let b:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_aggregate_errors = 1
+" let g:syntastic_enable_signs = 1
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" neomake
 
+autocmd! BufWritePost * Neomake " run neomake on write
+let g:neomake_javascript_enabled_makers = ['eslint']
+" color the errors
+let g:neomake_error_sign = {
+    \ 'text': '✖',
+    \ 'texthl': 'ErrorMsg',
+    \ }
+let g:neomake_warning_sign = {
+  \ 'text': '✹',
+  \ 'texthl': 'ErrorMsg',
+  \ }
 
 " COMMANDS
 

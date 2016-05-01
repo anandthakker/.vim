@@ -31,9 +31,6 @@
 [submodule "bundle/supertab"]
 	path = bundle/supertab
 	url = https://github.com/ervandew/supertab.git
-[submodule "bundle/syntastic"]
-	path = bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule "bundle/vim-better-whitespace"]
 	path = bundle/vim-better-whitespace
 	url = git://github.com/ntpeters/vim-better-whitespace.git
@@ -91,3 +88,6 @@
 [submodule "bundle/yajs.vim"]
 	path = bundle/yajs.vim
 	url = https://github.com/othree/yajs.vim
+[submodule "bundle/neomake"]
+	path = bundle/neomake
+	url = https://github.com/benekastah/neomake
