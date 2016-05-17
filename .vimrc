@@ -86,17 +86,6 @@ augroup markdown_filetype
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 augroup END
 
-" http://blog.pixelastic.com/2015/10/05/use-local-eslint-in-syntastic/
-" function! StrTrim(txt)
-"   return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-" endfunction
-" augroup js_syntax_filetypes
-"     autocmd!
-"     autocmd FileType javascript,javascript.jsx let b:syntastic_checkers = ['eslint']
-"     autocmd FileType javascript,javascript.jsx let g:syntastic_javascript_eslint_exec = StrTrim(system('npm-which eslint'))
-" augroup END
-
-
 " statusline
 set statusline=%<
 set statusline+=%(%-f\ %h%r%m\ %{fugitive#statusline()}%)
@@ -149,18 +138,30 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-" syntastic
-" let g:syntastic_python_checkers = ['pep8', 'pylint']
-" let b:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_aggregate_errors = 1
-" let g:syntastic_enable_signs = 1
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" neomake
 
-autocmd! BufWritePost * Neomake " run neomake on write
+" Neomake
+" set neomake to prefer local eslint
+" https://github.com/neomake/neomake/issues/247
+function! NeomakeESlintChecker()
+  let l:npm_bin = ''
+  let l:eslint = 'eslint'
+  if executable('npm-which')
+    let l:eslint = split(system('npm-which eslint'))[0]
+  elseif executable('npm')
+    let l:npm_bin = split(system('npm bin'), '\n')[0]
+    if strlen(l:npm_bin) && executable(l:npm_bin . '/eslint')
+      let l:eslint = l:npm_bin . '/eslint'
+    endif
+  endif
+  let b:neomake_javascript_eslint_exe = l:eslint
+endfunction
+
+augroup neomake_settings
+  autocmd!
+  autocmd FileType javascript,javascript.jsx :call NeomakeESlintChecker()
+  autocmd BufWritePost * Neomake " run neomake on write
+augroup END
+
 let g:neomake_javascript_enabled_makers = ['eslint']
 " color the errors
 let g:neomake_error_sign = {
@@ -171,6 +172,7 @@ let g:neomake_warning_sign = {
   \ 'text': '✹',
   \ 'texthl': 'ErrorMsg',
   \ }
+
 
 " COMMANDS
 
