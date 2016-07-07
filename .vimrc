@@ -163,6 +163,7 @@ augroup neomake_settings
 augroup END
 
 let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_python_pep8_args = [ '--ignore', 'E402' ]
 " color the errors
 let g:neomake_error_sign = {
     \ 'text': '✖',

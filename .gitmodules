@@ -22,9 +22,6 @@
 [submodule "bundle/node"]
 	path = bundle/node
 	url = https://github.com/moll/vim-node.git
-[submodule "bundle/snipmate-nodejs"]
-	path = bundle/snipmate-nodejs
-	url = https://github.com/jamescarr/snipmate-nodejs.git
 [submodule "bundle/splitjoin.vim"]
 	path = bundle/splitjoin.vim
 	url = https://github.com/AndrewRadev/splitjoin.vim.git
@@ -34,9 +31,6 @@
 [submodule "bundle/vim-better-whitespace"]
 	path = bundle/vim-better-whitespace
 	url = git://github.com/ntpeters/vim-better-whitespace.git
-[submodule "bundle/vim-coffee-script"]
-	path = bundle/vim-coffee-script
-	url = https://github.com/kchmck/vim-coffee-script.git
 [submodule "bundle/vim-fugitive"]
 	path = bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
@@ -76,9 +70,6 @@
 [submodule "bundle/json5.vim"]
 	path = bundle/json5.vim
 	url = https://github.com/GutenYe/json5.vim
-[submodule "bundle/vim-jsx"]
-	path = bundle/vim-jsx
-	url = https://github.com/mxw/vim-jsx
 [submodule "bundle/vim-flow"]
 	path = bundle/vim-flow
 	url = https://github.com/flowtype/vim-flow
