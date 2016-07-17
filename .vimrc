@@ -21,7 +21,6 @@ set wildmode=longest,list,full
 set wildmenu
 set wildignore+=node_modules
 set laststatus=2
-set autochdir
 
 filetype plugin on
 filetype indent on
@@ -89,7 +88,11 @@ augroup END
 " statusline
 set statusline=%<
 set statusline+=%(%-f\ %h%r%m\ %{fugitive#statusline()}%)
-set statusline+=\ %#Error#%{neomake#statusline#LoclistStatus()}%* " lint errors
+
+if has('neomake')
+  set statusline+=\ %#Error#%{neomake#statusline#LoclistStatus()}%* " lint errors
+endif
+
 set statusline+=%= " boundary btw left and right sides
 set statusline+=%-14.(%l,%c%V%) " line,col
 set statusline+=%P " percentage through file
@@ -157,9 +160,11 @@ function! NeomakeESlintChecker()
 endfunction
 
 augroup neomake_settings
-  autocmd!
-  autocmd FileType javascript,javascript.jsx :call NeomakeESlintChecker()
-  autocmd BufWritePost * Neomake " run neomake on write
+  if has('neomake')
+    autocmd!
+    autocmd FileType javascript,javascript.jsx :call NeomakeESlintChecker()
+    autocmd BufWritePost * Neomake " run neomake on write
+  endif
 augroup END
 
 let g:neomake_javascript_enabled_makers = ['eslint']
@@ -192,10 +197,13 @@ command! -nargs=1 Curl call g:Curl(<f-args>)
 
 
 " window navigation
-tnoremap <A-h> <C-\><C-n><C-w>h
-tnoremap <A-j> <C-\><C-n><C-w>j
-tnoremap <A-k> <C-\><C-n><C-w>k
-tnoremap <A-l> <C-\><C-n><C-w>l
+if has('nvim')
+  tnoremap <A-h> <C-\><C-n><C-w>h
+  tnoremap <A-j> <C-\><C-n><C-w>j
+  tnoremap <A-k> <C-\><C-n><C-w>k
+  tnoremap <A-l> <C-\><C-n><C-w>l
+endif
+
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
