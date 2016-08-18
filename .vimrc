@@ -89,7 +89,7 @@ augroup END
 set statusline=%<
 set statusline+=%(%-f\ %h%r%m\ %{fugitive#statusline()}%)
 
-if has('neomake')
+if has('nvim')
   set statusline+=\ %#Error#%{neomake#statusline#LoclistStatus()}%* " lint errors
 endif
 
@@ -160,7 +160,7 @@ function! NeomakeESlintChecker()
 endfunction
 
 augroup neomake_settings
-  if has('neomake')
+  if has('nvim')
     autocmd!
     autocmd FileType javascript,javascript.jsx :call NeomakeESlintChecker()
     autocmd BufWritePost * Neomake " run neomake on write
@@ -168,7 +168,7 @@ augroup neomake_settings
 augroup END
 
 let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_python_pep8_args = [ '--ignore', 'E402' ]
+let g:neomake_python_pep8_args = [ '--ignore', 'E402', '--ignore', 'E501' ]
 " color the errors
 let g:neomake_error_sign = {
     \ 'text': '✖',
