@@ -82,3 +82,6 @@
 [submodule "bundle/neomake"]
 	path = bundle/neomake
 	url = https://github.com/benekastah/neomake
+[submodule "bundle/vim-one"]
+	path = bundle/vim-one
+	url = https://github.com/rakr/vim-one.git

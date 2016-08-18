@@ -51,28 +51,6 @@ endif
 
 syntax on
 
-set background=dark
-colorscheme base16-atelierforest
-" http://vim.wikia.com/wiki/Better_colors_for_syntax_highlighting
-function! ReverseBackground()
-  let Mysyn=&syntax
-  if &bg=="light"
-  se bg=dark
-  else
-  se bg=light
-  endif
-  syn on
-  exe "set syntax=" . Mysyn
-endfunction
-command! ToggleBackground call ReverseBackground()
-
-if exists('+colorcolumn')
-  augroup colorcolumn
-    autocmd!
-    autocmd FileType javascript,python,markdown setlocal colorcolumn=80
-  augroup END
-endif
-
 augroup python_filetype
     autocmd!
     autocmd FileType python set nowrap
@@ -96,6 +74,49 @@ endif
 set statusline+=%= " boundary btw left and right sides
 set statusline+=%-14.(%l,%c%V%) " line,col
 set statusline+=%P " percentage through file
+
+
+" COLORS
+
+
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+  if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
+
+set background=dark
+colorscheme one
+
+" http://vim.wikia.com/wiki/Better_colors_for_syntax_highlighting
+function! ReverseBackground()
+  let Mysyn=&syntax
+  if &bg=="light"
+  se bg=dark
+  else
+  se bg=light
+  endif
+  syn on
+  exe "set syntax=" . Mysyn
+endfunction
+command! ToggleBackground call ReverseBackground()
+
+if exists('+colorcolumn')
+  augroup colorcolumn
+    autocmd!
+    autocmd FileType javascript,python,markdown setlocal colorcolumn=80
+  augroup END
+endif
 
 
 " PLUGIN SETTINGS
