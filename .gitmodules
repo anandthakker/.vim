@@ -76,9 +76,6 @@
 [submodule "bundle/targets.vim"]
 	path = bundle/targets.vim
 	url = https://github.com/wellle/targets.vim
-[submodule "bundle/yajs.vim"]
-	path = bundle/yajs.vim
-	url = https://github.com/othree/yajs.vim
 [submodule "bundle/neomake"]
 	path = bundle/neomake
 	url = https://github.com/benekastah/neomake
@@ -91,3 +88,6 @@
 [submodule "bundle/vim-gitgutter"]
 	path = bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
+[submodule "bundle/vim-javascript"]
+	path = bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
