@@ -171,32 +171,46 @@ endif
 
 
 " Neomake
-" set neomake to prefer local eslint
+
+" Find local node_modules version of given module if possible
 " https://github.com/neomake/neomake/issues/247
-function! NeomakeESlintChecker()
+function! GetNpmBin(name)
   let l:npm_bin = ''
-  let l:eslint = 'eslint'
+  let l:cmd = a:name
   if executable('npm-which')
-    let l:eslint = split(system('npm-which eslint'))[0]
+    let l:cmd = split(system('npm-which ' . a:name))[0]
   elseif executable('npm')
     let l:npm_bin = split(system('npm bin'), '\n')[0]
-    if strlen(l:npm_bin) && executable(l:npm_bin . '/eslint')
-      let l:eslint = l:npm_bin . '/eslint'
+    if strlen(l:npm_bin) && executable(l:npm_bin . '/' . a:name)
+      let l:cmd = l:npm_bin . '/' . a:name
     endif
   endif
-  let b:neomake_javascript_eslint_exe = l:eslint
+  return l:cmd
+endfunction
+
+function! SetJavascriptMaker()
+  let l:pkg = split(system('npm prefix'), '\n')[0] . '/package.json'
+  let l:pkg_data = pyeval('json.load(open("' . l:pkg . '"))')
+  let l:dev_dependencies = get(l:pkg_data, 'devDependencies', {})
+  if has_key(l:dev_dependencies, 'standard')
+    let g:neomake_javascript_enabled_makers = ['standard']
+    let b:neomake_javascript_standard_exe = GetNpmBin('standard')
+  else
+    let g:neomake_javascript_enabled_makers = ['eslint']
+    let b:neomake_javascript_eslint_exe = GetNpmBin('eslint')
+  endif
 endfunction
 
 augroup neomake_settings
   if has('nvim')
     autocmd!
-    autocmd FileType javascript,javascript.jsx :call NeomakeESlintChecker()
+    autocmd FileType javascript,javascript.jsx :call SetJavascriptMaker()
     autocmd BufWritePost * Neomake " run neomake on write
   endif
 augroup END
 
-let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_python_pep8_args = [ '--ignore', 'E402', '--ignore', 'E501' ]
+
 " color the errors
 let g:neomake_error_sign = {
     \ 'text': '✖',
