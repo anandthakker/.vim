@@ -61,6 +61,7 @@ augroup END
 augroup markdown_filetype
   autocmd!
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+  autocmd FileType markdown let delimitMate_expand_space = 0
 augroup END
 
 " statusline
