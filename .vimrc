@@ -173,6 +173,8 @@ endif
 
 " Neomake
 
+let g:neomake_python_flake8_args = [ '--ignore', 'E402,E501' ]
+
 " Find local node_modules version of given module if possible
 " https://github.com/neomake/neomake/issues/247
 function! GetNpmBin(name)
@@ -209,8 +211,6 @@ augroup neomake_settings
     autocmd BufWritePost * Neomake " run neomake on write
   endif
 augroup END
-
-let g:neomake_python_pep8_args = [ '--ignore', 'E402', '--ignore', 'E501' ]
 
 " color the errors
 let g:neomake_error_sign = {
