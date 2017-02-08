@@ -26,8 +26,8 @@ filetype plugin on
 filetype indent on
 
 set autoindent
-set tabstop=2
-set sw=2
+set tabstop=4
+set sw=4
 set expandtab
 
 if has("gui_running")
