@@ -137,6 +137,7 @@ let g:gist_post_private = 1
 
 " ctrlp
 let g:ctrlp_extensions = ['line', 'funky']
+let g:ctrlp_working_path_mode = 'cr'
 
 " jsx
 let g:jsx_ext_required = 0
@@ -172,6 +173,9 @@ endif
 
 
 " Neomake
+
+let g:neomake_cpp_enabled_makers=['clang']
+let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall"]
 
 let g:neomake_python_flake8_args = [ '--ignore', 'E402,E501' ]
 
