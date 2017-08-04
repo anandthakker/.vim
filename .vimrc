@@ -1,4 +1,59 @@
-execute pathogen#infect()
+
+
+" PLUGINS
+
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'mattn/webapi-vim' " dep for some other plugin(?)
+
+" git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" presentation
+Plug 'chriskempson/base16-vim'
+Plug 'rakr/vim-one'
+
+" search & nav
+Plug 'mileszs/ack.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky'
+
+" general editing
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-sleuth'
+Plug 'ervandew/supertab'
+Plug 'wellle/targets.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'honza/vim-snippets'
+Plug 'mtth/scratch.vim'
+
+" completion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install -g tern' }
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install' }
+
+" language support
+Plug 'pangloss/vim-javascript'
+Plug 'moll/vim-node'
+Plug 'flowtype/vim-flow', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/html5.vim'
+Plug 'elzr/vim-json'
+Plug 'GutenYe/json5.vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'tikhomirov/vim-glsl'
+
+" syntax checking
+Plug 'w0rp/ale'
+Plug 'tmcw/vim-eslint-compiler'
+
+call plug#end()
 
 
 " VIM SETTINGS
@@ -69,7 +124,20 @@ set statusline=%<
 set statusline+=%(%-f\ %h%r%m\ %{fugitive#statusline()}%)
 
 if has('nvim')
-  set statusline+=\ %#Error#%{neomake#statusline#LoclistStatus()}%* " lint errors
+  function! LinterStatus() abort
+      let l:counts = ale#statusline#Count(bufnr(''))
+
+      let l:all_errors = l:counts.error + l:counts.style_error
+      let l:all_non_errors = l:counts.total - l:all_errors
+
+      return l:counts.total == 0 ? '' : printf(
+      \   '%dW %dE',
+      \   all_non_errors,
+      \   all_errors
+      \)
+  endfunction
+
+  set statusline+=\ %#Error#%{LinterStatus()}%*
 endif
 
 set statusline+=%= " boundary btw left and right sides
@@ -123,6 +191,12 @@ endif
 " PLUGIN SETTINGS
 
 
+" ale
+let g:ale_linters = {
+\   'javascript': ['eslint', 'flow'],
+\}
+let g:ale_echo_msg_format = '%linter%: %s'
+
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -137,7 +211,6 @@ let g:gist_post_private = 1
 
 " ctrlp
 let g:ctrlp_extensions = ['line', 'funky']
-let g:ctrlp_working_path_mode = 'cr'
 
 " jsx
 let g:jsx_ext_required = 0
@@ -147,16 +220,29 @@ let g:jedi#show_call_signatures = 0
 let g:jedi#popup_on_dot = 0
 
 " tern
-" make sure we use the same node version that was used to install the tern server
-let g:tern#command = [$NVM_DIR . '/versions/io.js/v2.5.0/bin/node', $HOME . '/.vim/bundle/tern_for_vim/node_modules/tern/bin/tern', '--no-port-file']
-let g:tern#is_show_argument_hints_enabled = 0
+let g:tern#arguments = ["--persistent"]
 
 " vim-flow
-let g:flow#enable = 1
+let g:flow#enable = 0
+let local_flow = finddir('node_modules', '.;') . '/.bin/flow'
+if matchstr(local_flow, "^\/\\w") == ''
+  let local_flow= getcwd() . "/" . local_flow
+endif
+if executable(local_flow)
+  let g:flow#enable = 1
+  let g:flow#flowpath = local_flow
+endif
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_flow = 1
+let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:tern_request_timeout = 1
+let g:tern_show_signature_in_pum = 0
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#file#enable_buffer_path = 1
 
 " vim-gitgutter
 let g:gitgutter_sign_added = '|'
@@ -174,74 +260,6 @@ if executable('ag')
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
-
-
-" Neomake
-
-let g:neomake_cpp_enabled_makers=['clang']
-let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall"]
-
-let g:neomake_python_flake8_args = [ '--ignore', 'E402,E501' ]
-
-" Find local node_modules version of given module if possible
-" https://github.com/neomake/neomake/issues/247
-function! GetNpmBin(name)
-  let l:npm_bin = ''
-  let l:cmd = a:name
-  if executable('npm-which')
-    let l:cmd = split(system('npm-which ' . a:name))[0]
-  elseif executable('npm')
-    let l:npm_bin = split(system('npm bin'), '\n')[0]
-    if strlen(l:npm_bin) && executable(l:npm_bin . '/' . a:name)
-      let l:cmd = l:npm_bin . '/' . a:name
-    endif
-  endif
-  return l:cmd
-endfunction
-
-function! SetJavascriptMaker()
-  let l:pkg = split(system('npm prefix'), '\n')[0] . '/package.json'
-  let l:pkg_data = pyeval('json.load(open("' . l:pkg . '"))')
-  let l:dev_dependencies = get(l:pkg_data, 'devDependencies', {})
-  if has_key(l:dev_dependencies, 'standard')
-    let g:neomake_javascript_enabled_makers = ['standard']
-    let b:neomake_javascript_standard_exe = GetNpmBin('standard')
-  else
-    let g:neomake_javascript_enabled_makers = ['eslint']
-    let b:neomake_javascript_eslint_exe = GetNpmBin('eslint')
-  endif
-endfunction
-
-augroup neomake_settings
-  if has('nvim')
-    autocmd!
-    autocmd FileType javascript,javascript.jsx :call SetJavascriptMaker()
-    autocmd BufWritePost * Neomake " run neomake on write
-  endif
-augroup END
-
-" color the errors
-let g:neomake_error_sign = {
-    \ 'text': '✖',
-    \ 'texthl': 'ErrorMsg',
-    \ }
-let g:neomake_warning_sign = {
-  \ 'text': '✹',
-  \ 'texthl': 'ErrorMsg',
-  \ }
-
-
-" COMMANDS
-
-
-function! g:Curl(url)
-  normal ggdG
-  silent !clear
-  let l:foo = ":read !curl -s " . a:url . " | jq ."
-  set filetype=json
-  execute foo
-endfunction
-command! -nargs=1 Curl call g:Curl(<f-args>)
 
 
 " KEY BINDINGS
