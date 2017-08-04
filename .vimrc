@@ -152,7 +152,11 @@ let g:tern#command = [$NVM_DIR . '/versions/io.js/v2.5.0/bin/node', $HOME . '/.v
 let g:tern#is_show_argument_hints_enabled = 0
 
 " vim-flow
-let g:flow#enable = 0
+let g:flow#enable = 1
+
+" vim-javascript
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_flow = 1
 
 " vim-gitgutter
 let g:gitgutter_sign_added = '|'
