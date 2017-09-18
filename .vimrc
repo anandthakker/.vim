@@ -18,7 +18,6 @@ Plug 'rakr/vim-one'
 " search & nav
 Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky'
 
 " general editing
 Plug 'tpope/vim-repeat'
@@ -221,6 +220,11 @@ let g:jedi#popup_on_dot = 0
 
 " tern
 let g:tern#arguments = ["--persistent"]
+augroup tern_mappings
+  autocmd!
+  autocmd FileType javascript nnoremap <Leader>td :TernDoc<Cr>
+  autocmd FileType javascript nnoremap <Leader>tt :TernType<Cr>
+augroup END
 
 " vim-flow
 let g:flow#enable = 0
@@ -231,6 +235,11 @@ endif
 if executable(local_flow)
   let g:flow#enable = 1
   let g:flow#flowpath = local_flow
+  augroup flow_mappings
+    autocmd!
+    autocmd FileType javascript nnoremap <Leader>fd :FlowJumpToDef<Cr>
+    autocmd FileType javascript nnoremap <Leader>ft :FlowType<Cr>
+  augroup END
 endif
 
 " vim-javascript
@@ -290,20 +299,10 @@ nnoremap <Leader>r :%s/\<<c-r>"\>/<c-r>./g
 " and \S for a full code search
 nnoremap <Leader>S :Ack! <C-r><C-w>
 " \a for Ack
-nnoremap <Leader>a :Ack! 
-" \fu for function list
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" \fU narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <Leader>a :Ack!
 " \b for buffers
 nnoremap <Leader>b :CtrlPBuffer<Cr>
 " toggle light/dark background
 nnoremap <F5> :ToggleBackground<Cr>
 " http://vim.wikia.com/wiki/Selecting_your_pasted_text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-" code semantics
-augroup tern_mappings
-  autocmd!
-  autocmd FileType javascript nnoremap <Leader>d :TernDoc<Cr>
-  autocmd FileType javascript nnoremap <Leader>t :TernType<Cr>
-augroup END
