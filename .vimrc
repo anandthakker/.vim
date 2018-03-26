@@ -9,6 +9,7 @@ Plug 'mattn/webapi-vim' " dep for some other plugin(?)
 
 " git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 
 " presentation
@@ -39,6 +40,7 @@ Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'], 'do': 'np
 
 " language support
 Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 Plug 'moll/vim-node'
 Plug 'flowtype/vim-flow', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/html5.vim'
@@ -47,6 +49,11 @@ Plug 'GutenYe/json5.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'tikhomirov/vim-glsl'
+Plug 'nikvdp/ejs-syntax'
+Plug 'rust-lang/rust.vim'
+
+" dash
+Plug 'rizzatti/dash.vim'
 
 " syntax checking
 Plug 'w0rp/ale'
@@ -306,3 +313,5 @@ nnoremap <Leader>b :CtrlPBuffer<Cr>
 nnoremap <F5> :ToggleBackground<Cr>
 " http://vim.wikia.com/wiki/Selecting_your_pasted_text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+" dash
+nmap <silent> <leader>d <Plug>DashSearch
