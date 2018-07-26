@@ -37,6 +37,7 @@ Plug 'mtth/scratch.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install -g tern' }
 Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install' }
+Plug 'racer-rust/vim-racer', { 'for': ['rust'] }
 
 " language support
 Plug 'pangloss/vim-javascript'
@@ -123,6 +124,11 @@ augroup markdown_filetype
   autocmd!
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
   autocmd FileType markdown let delimitMate_expand_space = 0
+augroup END
+
+augroup flow_filetype
+  autocmd!
+  autocmd BufNewFile,BufReadPost *.js.flow set filetype=javascript
 augroup END
 
 " statusline
@@ -255,6 +261,15 @@ let g:javascript_plugin_flow = 1
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:tern_request_timeout = 1
 let g:tern_show_signature_in_pum = 0
+
+" vim-racer
+augroup racer_mappings
+  autocmd!
+  au FileType rust nmap gd <Plug>(rust-def)
+  au FileType rust nmap gs <Plug>(rust-def-split)
+  au FileType rust nmap gx <Plug>(rust-def-vertical)
+  au FileType rust nmap <leader>gd <Plug>(rust-doc)
+augroup END
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
